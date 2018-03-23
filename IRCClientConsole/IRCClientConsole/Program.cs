@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace IRCClientConsole {
@@ -27,13 +28,18 @@ namespace IRCClientConsole {
 				//};
 
 				sw.WriteLine("CAP LS 302");
+				sw.WriteLine("CAP END");
 				sw.WriteLine("NICK " + "kammie");
 				sw.WriteLine("USER " + "kammie" + " 0 * " + "kammie junkie");
-				sw.WriteLine("CAP END");
 				sw.WriteLine("JOIN " + "test");
 
+				string readMessage = "";
 				while (true) {
-					Console.WriteLine(sr.ReadLine());
+					readMessage = sr.ReadLine();
+					if(!String.IsNullOrWhiteSpace(readMessage)) {
+						Console.WriteLine(readMessage);
+					}
+					Thread.Sleep(17);
 				}
 			}
 		}
@@ -48,7 +54,7 @@ namespace IRCClientConsole {
 				} catch (SocketException) {
 					Console.WriteLine("Cannot find server.");
 					Console.WriteLine("Retrying in 5 seconds.");
-					System.Threading.Thread.Sleep(5000);
+					Thread.Sleep(5000);
 				}
 			}
 
