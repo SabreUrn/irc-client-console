@@ -30,16 +30,24 @@ namespace IRCClientConsole {
 			//using (StreamReader sr = new StreamReader(ns))
 			//using (StreamWriter sw = new StreamWriter(ns) { NewLine = "\r\n", AutoFlush = true }) {
 
-			var read = Task.Factory.StartNew(() => ReadMessage());
-			var write = Task.Factory.StartNew(() => WriteMessage());
+
 
 
 
 			//sw.WriteLine("CAP LS 302");
 			//sw.WriteLine("CAP END");
+			//Console.WriteLine(_sr.ReadLine());
+			//Console.WriteLine(_sr.ReadLine());
 			//_sw.WriteLine("NICK " + "kammie");
-			//sw.WriteLine("USER " + "kammie" + " 0 * " + "kammie junkie");
-			//_sw.WriteLine("JOIN " + "test");
+			//ListenForPing();
+			//_sw.WriteLine("USER " + "kammie" + " 0 * " + "kammie junkie");
+			//Console.WriteLine(_sr.ReadLine());
+			//_sw.WriteLine("JOIN " + "#test");
+
+			//
+
+			var read = Task.Factory.StartNew(() => ReadMessage());
+			var write = Task.Factory.StartNew(() => WriteMessage());
 
 			while (true) ;
 
@@ -80,11 +88,13 @@ namespace IRCClientConsole {
 		}
 
 		//PING :4F0FD21D
-		private static async void ListenForPing() {
-			string message = await _sr.ReadLineAsync();
+		private static void ListenForPing() {
+			string message = _sr.ReadLine();
+			Console.WriteLine(message);
 			if (message.Contains("PING")) {
-				string response = "PONG " + message.Split(':')[1];
+				string response = "PONG " + message.Split(' ')[1];
 				response = response.Substring(0, response.Length - 2);
+				Console.WriteLine(response);
 				_sw.WriteLine(response);
 
 			}
